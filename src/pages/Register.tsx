@@ -8,8 +8,11 @@ export default function Register() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterRequest>();
+  } = useForm<RegisterRequest>({
+    mode: "onBlur",
+  });
 
   const onSubmit = async (data: RegisterRequest) => {
     try {
@@ -17,8 +20,12 @@ export default function Register() {
       alert("Registration successful! Please login.");
       navigate("/login");
     } catch (error: any) {
-      const msg = error.response?.data?.message || "Registration failed";
-      alert(msg);
+      const backendMessage =
+        error.response?.data?.message || "Something went wrong";
+      setError("root", {
+        type: "manual",
+        message: backendMessage,
+      });
     }
   };
 
@@ -30,6 +37,11 @@ export default function Register() {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {errors.root && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">
+              {errors.root.message}
+            </div>
+          )}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
               Username

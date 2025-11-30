@@ -7,10 +7,15 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
 export const registerUser = async (data: RegisterRequest) => {
   return api.post<ApiResponse<void>>("/auth/register", data);
 };
 
-export const loginUser = async (data: any) => {
+export const loginUser = async (data: LoginRequest) => {
   return api.post("/auth/login", data);
 };
