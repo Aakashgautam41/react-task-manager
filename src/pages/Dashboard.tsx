@@ -16,7 +16,6 @@ export default function Dashboard() {
   // --- STATE MANAGEMENT ---
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
-
   // Pagination
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);

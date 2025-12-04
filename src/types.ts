@@ -18,16 +18,23 @@ export interface Task {
   subtasks: SubTask[];
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
-
 export interface Page<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
   size: number;
   number: number;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  roles: string[];
+}
+export interface ApiResponse<T> {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: T;
 }

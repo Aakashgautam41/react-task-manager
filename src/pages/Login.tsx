@@ -9,7 +9,7 @@ export default function Login() {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<LoginRequest>({
     mode: "onBlur",
   });
@@ -80,7 +80,7 @@ export default function Login() {
           {/* Login Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition disabled:opacity-50"
           >
             {isSubmitting ? "Logging in..." : "Login"}

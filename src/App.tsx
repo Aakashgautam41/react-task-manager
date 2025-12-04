@@ -1,22 +1,50 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Register from "./pages/Register";
 import TaskForm from "./pages/TaskForm";
+import Register from "./pages/Register";
+import Navbar from "./pages/Navbar";
+// Layout Component for Protected Pages
+const ProtectedLayout = () => {
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navbar /> {/* <--- Navbar lives here now! */}
+      <main className="p-6">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50 text-gray-900">
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+      <Routes>
+        {/* Public Routes (No Navbar) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected Routes (Has Navbar) */}
+        <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks/new" element={<TaskForm />} />
           <Route path="/tasks/edit/:id" element={<TaskForm />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </div>
+        </Route>
+
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }
