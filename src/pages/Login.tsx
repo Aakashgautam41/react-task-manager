@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser, type LoginRequest } from "../services/auth";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const {
     register,
@@ -17,7 +19,7 @@ export default function Login() {
   const onSubmit = async (data: LoginRequest) => {
     try {
       const res = await loginUser(data);
-      localStorage.setItem("token", res.data.data.token);
+      login(res.data.data.token);
       navigate("/dashboard");
     } catch (error: any) {
       const backendMessage =

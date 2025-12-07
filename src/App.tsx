@@ -10,9 +10,11 @@ import Dashboard from "./pages/Dashboard";
 import TaskForm from "./pages/TaskForm";
 import Register from "./pages/Register";
 import Navbar from "./pages/Navbar";
+import { useAuth } from "./context/AuthContext";
+
 // Layout Component for Protected Pages
 const ProtectedLayout = () => {
-  const isAuthenticated = !!localStorage.getItem("token");
+  const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -20,7 +22,7 @@ const ProtectedLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Navbar /> {/* <--- Navbar lives here now! */}
+      <Navbar />
       <main className="p-6">
         <Outlet />
       </main>

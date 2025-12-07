@@ -1,25 +1,13 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { LogOut, LayoutDashboard, CheckSquare } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState<string>("");
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        setUsername(payload.sub);
-      } catch (e) {
-        console.error("Invalid token");
-      }
-    }
-  }, []);
+  const { username, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     navigate("/login");
   };
 
